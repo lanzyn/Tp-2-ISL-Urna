@@ -95,4 +95,21 @@ always @(negedge finish or posedge valid)
 							VoteStatus <= 1'b0;
 							proximo_estado <= digito1;
 						end
-			
+			finish_vote: if (finish == 1'b0)
+						begin
+							proximo_estado <= digito1;
+						end
+					else
+						begin
+							proximo_estado <= inicio;
+						end
+			default: 
+					begin
+						contadorC1 <= 8'b0;										
+						contadorC2 <= 8'b0;
+						contadorNulL <= 8'b0;
+						proximo_estado <= inicio;
+					end
+		endcase
+	end
+endmodule
