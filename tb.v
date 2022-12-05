@@ -1,4 +1,5 @@
 `include "code.v"
+
 module tb_Urna();
 reg tb_clk;
 reg tb_finish;
@@ -8,6 +9,7 @@ reg tb_digit1;
 reg tb_digit3;
 reg tb_swap;
 reg tb_valid;
+wire [1:0] tb_estado;
 
 wire [7:0] tb_TotalC1;
 wire [7:0] tb_TotalC2;
@@ -19,15 +21,16 @@ Urna urnatb
     .finish(tb_finish),
     .clk(tb_clk),
     .swap(tb_swap),
-    .digit0(tb_digit0),
-    .digit2(tb_digit2),
-    .digit1(tb_digit1),
-    .digit3(tb_digit3),
+    .voto0(tb_digit0),
+    .voto1(tb_digit1),
+    .voto2(tb_digit2),
+    .voto3(tb_digit3),
     .valid(tb_valid),
-    .VoteStatus(tb_VoteStatus),
-    .contadorC1(tb_TotalC1),
-    .contadorC2(tb_TotalC2),
-    .contadorNull(tb_TotalNull)
+    .Vote_Status(tb_VoteStatus),
+    .TotalC1(tb_TotalC1),
+    .TotalC2(tb_TotalC2),
+    .TotalNull(tb_TotalNull),
+    .estado(tb_estado)
 );
 
 localparam CLK_PERIOD = 10;
@@ -35,11 +38,9 @@ always #(CLK_PERIOD/2) tb_clk=~tb_clk;
 
 initial
 begin
-    $monitor ("time = %d, finish = %b, candidate_1 = %b, candidate_2 = %b, candidate_3 = %b, vote_over = %b, result_1 = %3d, result_2 = %3d, result_3 = %3d,\n",
-    $time, tb_finish, tb_digit0, tb_digit1, tb_digit2, tb_finish, tb_TotalC1, tb_TotalC2, tb_TotalNull,);
+    $monitor ("time = %d,estado = %d, finish = %b, valid = %d digito0 = %b, digito1 = %b, digito2 = %b, digito3 = %b votestatus = %b, result_1 = %d, result_2 = %d, result_3 = %d,\n",
+    $time, tb_estado, tb_finish, tb_valid, tb_digit0, tb_digit1, tb_digit2, tb_digit3, tb_VoteStatus, tb_TotalC1, tb_TotalC2, tb_TotalNull,);
 
-    
-    tb_finish = 1'b0;
     tb_digit0 = 1'b0;
     tb_digit1 = 1'b0;
     tb_digit2 = 1'b0;
@@ -47,48 +48,52 @@ begin
     tb_valid = 1'b0;
     tb_swap = 1'b0;
 
-    #20 tb_digit0 = 1'b0;
-    #10 tb_digit1 = 1'b0;
-    #10 tb_digit2 = 1'b1;
-    #10 tb_digit3 = 1'b0;
-    #10 tb_valid = 1'b1;
+    #5 tb_digit0 = 1'b0;
+    #5 tb_digit1 = 1'b0;
+    #5 tb_digit2 = 1'b1;
+    #5 tb_digit3 = 1'b0;
+    #5 tb_valid = 1'b1;
+    #5 tb_valid = 1'b0;
 
-    #20 tb_digit0 = 1'b0;
-    #10 tb_digit1 = 1'b0;
-    #10 tb_digit2 = 1'b1;
-    #10 tb_digit3 = 1'b0;
-    #10 tb_valid = 1'b1;
+    #5 tb_digit0 = 1'b0;
+    #5 tb_digit1 = 1'b0;
+    #5 tb_digit2 = 1'b1;
+    #5 tb_digit3 = 1'b0;
+    #5 tb_valid = 1'b1;
+    #5 tb_valid = 1'b0;
 
-    #20 tb_digit0 = 1'b0;
-    #10 tb_digit1 = 1'b0;
-    #10 tb_digit2 = 1'b0;
-    #10 tb_digit3 = 1'b1;
-    #10 tb_valid = 1'b1;
+    #5 tb_digit0 = 1'b0;
+    #5 tb_digit1 = 1'b0;
+    #5 tb_digit2 = 1'b0;
+    #5 tb_digit3 = 1'b1;
+    #5 tb_valid = 1'b1;
+    #5 tb_valid = 1'b0;
 
-    #20 tb_digit0 = 1'b0;
-    #10 tb_digit1 = 1'b0;
-    #10 tb_digit2 = 1'b1;
-    #10 tb_digit3 = 1'b1;
-    #10 tb_valid = 1'b1;
+    #5 tb_digit0 = 1'b0;
+    #5 tb_digit1 = 1'b0;
+    #5 tb_digit2 = 1'b1;
+    #5 tb_digit3 = 1'b1;
+    #5 tb_valid = 1'b1;
+    #5 tb_valid = 1'b0;
 
-    #20 tb_digit0 = 1'b0;
-    #10 tb_digit1 = 1'b0;
-    #10 tb_digit2 = 1'b0;
-    #10 tb_digit3 = 1'b1;
-    #10 tb_valid = 1'b1;
+    #5 tb_digit0 = 1'b0;
+    #5 tb_digit1 = 1'b0;
+    #5 tb_digit2 = 1'b0;
+    #5 tb_digit3 = 1'b1;
+    #5 tb_valid = 1'b1;
+    #5 tb_valid = 1'b0;
 
-    #20 tb_digit0 = 1'b0;
-    #10 tb_digit1 = 1'b0;
-    #10 tb_digit2 = 1'b1;
-    #10 tb_digit3 = 1'b1;
-    #10 tb_valid = 1'b1;
+    #5 tb_digit0 = 1'b0;
+    #5 tb_digit1 = 1'b0;
+    #5 tb_digit2 = 1'b1;
+    #5 tb_digit3 = 1'b1;
+    #5 tb_valid = 1'b1;
+    #5 tb_valid = 1'b0;
 
 
-    #30 tb_finish = 1'b1;
-    #50 tb_finish = 1'b1;                                    //reset when the voting process is over 
-    
-    //use $finish for simulators other than modelsim
-    #60 $stop;                                          // use $stop instead of $finish to keep modelsim simulator open 
+    #10 tb_finish = 1'b1;                                
+
+    #50 $stop;                                        
 end
 
 initial begin
