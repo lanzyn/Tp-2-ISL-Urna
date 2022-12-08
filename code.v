@@ -53,14 +53,14 @@ always @(clk, posedge valid or negedge finish) begin
         begin
             proximo_estado <= final;
         end
-        else if (voto0 == 1'b0 && voto1 == 1'b0 && voto2 == 1'b0 && voto3 == 1'b1)
+        else if (!voto0 && !voto1 && !voto2 && voto3)
         begin
             digito1C1 <= 1'b1;
             Vote_Status <= 1'bx;
             proximo_estado <= digito2;
             estado <= digito2;
         end
-        else if (voto0 == 1'b0 && voto1 == 1'b0 && voto2 == 1'b1 && voto3 == 1'b0)
+        else if (!voto0 && !voto1 && voto2 && voto3)
         begin
             digito1C2 <= 1'b1;
             Vote_Status <= 1'bx;
@@ -78,7 +78,7 @@ always @(clk, posedge valid or negedge finish) begin
         begin
             proximo_estado <= final;
         end
-        else if (digito1C1 == 1'b1 && voto0 == 1'b0 && voto1 == 1'b0 && voto2 == 1'b1 && voto3 == 1'b1 && valid == 1'b1 && swap == 1'b1)
+        else if (digito1C1 && !voto0 && !voto1 && voto2 && voto3 && valid && swap)
         begin
             contadorC2 <= contadorC2 + 1'b1;
             TotalC2 <= contadorC2;
@@ -88,7 +88,7 @@ always @(clk, posedge valid or negedge finish) begin
             proximo_estado <= digito1;
             estado <= digito1;
         end
-        else if (digito1C2 == 1'b1 && voto0 == 1'b0 && voto1 == 1'b0 && voto2 == 1'b1 && voto3 == 1'b0 && valid == 1'b1 && swap == 1'b1)
+        else if (digito1C2 && !voto0 && !voto1 && voto2 && !voto3 && valid && swap)
         begin
             contadorC1 <= contadorC1 + 1'b1;
             digito1C1 <= 1'b0;
@@ -97,7 +97,7 @@ always @(clk, posedge valid or negedge finish) begin
             proximo_estado <= digito1;
             estado <= digito1;
         end
-        else if (digito1C1 == 1'b1 && voto0 == 1'b0 && voto1 == 1'b0 && voto2 == 1'b1 && voto3 == 1'b1 && valid == 1'b1)
+        else if (digito1C1 && !voto0 && !voto1 && voto2 && voto3 && valid )
         begin
             contadorC1 <= contadorC1 + 1'b1;
             digito1C1 <= 1'b0;
@@ -106,7 +106,7 @@ always @(clk, posedge valid or negedge finish) begin
             proximo_estado <= digito1;
             estado <= digito1;
         end
-        else if (digito1C2 == 1'b1 && voto0 == 1'b0 && voto1 == 1'b0 && voto2 == 1'b1 && voto3 == 1'b0 && valid == 1'b1)
+        else if (digito1C2 && !voto0 && !voto1 && voto2 && !voto3 && valid)
         begin
             contadorC2 <= contadorC2 + 1'b1;
             digito1C1 <= 1'b0;
